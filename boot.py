@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # This file is executed on every boot (including wake-boot from deepsleep)
-import esp, webrepl, time, network
+import esp, webrepl, time, network,os
 
 TIMEOUT = 15
 

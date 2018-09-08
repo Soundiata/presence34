@@ -1,4 +1,5 @@
 # This file is executed on every boot (including wake-boot from deepsleep)
+import os
 from machine import Pin
 
 # constant
@@ -14,11 +15,10 @@ MQTT_CLIENTID = "Client-DZFREZG54VDF24F2B-" + str(BOOTH_ID)
 MQTT_BROKER = 'test.mosquitto.org'
 
 if 'umqtt' not in os.listdir('/lib'):
-        import upip
-        upip.install('micropython-umqtt.robust')
-        upip.install('micropython-umqtt.simple')
-    
-    from umqtt.simple import MQTTClient
+    import upip
+    upip.install('micropython-umqtt.robust')
+    upip.install('micropython-umqtt.simple')
+from umqtt.simple import MQTTClient
 
 mqtt_client = MQTTClient(MQTT_CLIENTID, MQTT_BROKER)
 
@@ -30,9 +30,9 @@ mqtt_message = TOPIC + '/' + str(BOOTH_ID)
 
 def update_presence():
     while True:
-        if pir.value() == 1:
-            led.value(1)
+        if pir.value() == UP:
+            led.value(UP)
             mqtt_client.publish(mqtt_message, STATE_USED)
-        if pir.value() == 0:
-            led.value()
+        if pir.value() == DOWN:
+            led.value(DOWN)
             mqtt_client.publish(mqtt_message, STATE_FREE)
