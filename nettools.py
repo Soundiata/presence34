@@ -43,9 +43,9 @@ def wlan_disconnect(timeout=15):
     return return_value
 
 def initiate_mqtt():
-    if 'mqtt' not in os.listdir('/lib'):
+    if 'umqtt' not in os.listdir('/lib'):
         import upip
         upip.install('micropython-umqtt.robust')
         upip.install('micropython-umqtt.simple')
     
-    from mqtt.simple import MQTTClient
+    from umqtt.simple import MQTTClient
