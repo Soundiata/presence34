@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # imports
-import sys, network, time
+import sys, network, time, os
 
 # kill all on start
 network.WLAN(network.STA_IF).active(False)
