@@ -1,0 +1,8 @@
+{
+    "LED_PIN" : 15,
+    "PIN_PIR" : 12,
+    "BOOTH_ID" : "1234",
+    "TOPIC" : "presence34",
+    "STATE_USED" : "USED",
+    "STATE_FREE" : "FREE"
+}
