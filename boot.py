@@ -28,3 +28,9 @@ for x in range(TIMEOUT):
 # initiate basic services
 esp.osdebug(None)
 webrepl.start()
+
+def cat(fname):
+    f = open(fname, 'r')
+    r = f.read()
+    f.close()
+    print(r)

@@ -3,8 +3,8 @@ import os
 from machine import Pin
 
 # constant
-PIN_LED = 15
-PIN_PIR = 12
+PIN_LED = 12
+PIN_PIR = 13
 BOOTH_ID = 1234
 TOPIC = 'presence34'
 UP = 1
@@ -21,18 +21,25 @@ if 'umqtt' not in os.listdir('/lib'):
 from umqtt.simple import MQTTClient
 
 mqtt_client = MQTTClient(MQTT_CLIENTID, MQTT_BROKER)
-
+mqtt_client.connect()
 
 led=Pin(PIN_LED,Pin.OUT)
 pir=Pin(PIN_PIR,Pin.IN)
 mqtt_message = TOPIC + '/' + str(BOOTH_ID)
 
 
+
 def update_presence():
+    previous_state = DOWN
+    
     while True:
-        if pir.value() == UP:
+        if (pir.value() == UP) and (previous_state == DOWN):
             led.value(UP)
             mqtt_client.publish(mqtt_message, STATE_USED)
-        if pir.value() == DOWN:
+            previous_state = UP
+        if (pir.value() == DOWN) and (previous_state == UP):
             led.value(DOWN)
             mqtt_client.publish(mqtt_message, STATE_FREE)
+            previous_state = DOWN
+
+update_presence()
