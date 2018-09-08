@@ -1,5 +1,4 @@
 # This file is executed on every boot (including wake-boot from deepsleep)
-import nettools
 from machine import Pin
 
 # constant
@@ -14,17 +13,13 @@ STATE_FREE = 'FREE'
 MQTT_CLIENTID = "Client-DZFREZG54VDF24F2B-" + str(BOOTH_ID)
 MQTT_BROKER = 'test.mosquitto.org'
 
-# credentials
-cred_file = open ('credentials.txt','r')
-credentials = cred_file.read()
-cred = credentials.split(',')
-ESSID = cred[0]
-PASSWORD = cred[1]
+if 'umqtt' not in os.listdir('/lib'):
+        import upip
+        upip.install('micropython-umqtt.robust')
+        upip.install('micropython-umqtt.simple')
+    
+    from umqtt.simple import MQTTClient
 
-
-nettools.wlan_connect(ESSID, PASSWORD)
-
-nettools.initiate_mqtt()
 mqtt_client = MQTTClient(MQTT_CLIENTID, MQTT_BROKER)
 
 
